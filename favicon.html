@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>CapAq favicon renderer</title>
+<style>
+  html, body { margin: 0; padding: 0; background: transparent; }
+</style>
+</head>
+<body>
+<script>
+  // Renders the CapAq cosmic tile (rounded gradient + gold ♑ / aqua ♒) at any pixel size.
+  function draw(ctx, s) {
+    var r = Math.max(2, s * 0.20);
+
+    // rounded tile background (transparent corners)
+    ctx.beginPath();
+    ctx.moveTo(r, 0);
+    ctx.arcTo(s, 0, s, s, r);
+    ctx.arcTo(s, s, 0, s, r);
+    ctx.arcTo(0, s, 0, 0, r);
+    ctx.arcTo(0, 0, s, 0, r);
+    ctx.closePath();
+
+    var g = ctx.createLinearGradient(0, 0, s, s);
+    g.addColorStop(0, "#1d2652");
+    g.addColorStop(1, "#0a0f28");
+    ctx.fillStyle = g;
+    ctx.fill();
+
+    // soft inner glow ring
+    var glow = ctx.createRadialGradient(s / 2, s / 2, s * 0.1, s / 2, s / 2, s * 0.62);
+    glow.addColorStop(0, "rgba(127,208,255,0.20)");
+    glow.addColorStop(1, "rgba(127,208,255,0)");
+    ctx.fillStyle = glow;
+    ctx.fill();
+
+    // border
+    ctx.strokeStyle = "rgba(255,255,255,0.20)";
+    ctx.lineWidth = Math.max(1, s * 0.028);
+    ctx.stroke();
+
+    // glyphs
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    var font = Math.max(6, s * 0.34) + "px 'DejaVu Sans','Noto Sans Symbols 2',serif";
+    ctx.font = font;
+
+    ctx.fillStyle = "#e9c46a";
+    ctx.fillText("\u2651", s * 0.30, s * 0.53); // ♑
+    ctx.fillStyle = "#7fd0ff";
+    ctx.fillText("\u2652", s * 0.70, s * 0.53); // ♒
+  }
+
+  function renderDataURL(size) {
+    var c = document.createElement("canvas");
+    c.width = c.height = size;
+    var ctx = c.getContext("2d");
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    draw(ctx, size);
+    return c.toDataURL("image/png");
+  }
+  window.renderDataURL = renderDataURL;
+</script>
+</body>
+</html>
