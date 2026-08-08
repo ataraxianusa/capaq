@@ -101,7 +101,7 @@
 
   // ── Attach reveal classes to major blocks ───────────────
   function decorate() {
-    document.querySelectorAll(".card, .mini-card, .list-item, .tip, .insight, .tldr, .scorecard, .verdict, .sources").forEach(function (el) {
+    document.querySelectorAll(".card, .mini-card, .list-item, .tip, .insight, .tldr, .scorecard, .verdict, .sources, .author, .note-card").forEach(function (el) {
       if (!el.classList.contains("reveal")) el.classList.add("reveal");
     });
   }
