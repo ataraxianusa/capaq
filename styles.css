@@ -93,7 +93,8 @@ body {
 
 /* ── Layout helpers ────────────────────────────────────── */
 .container { max-width: 980px; margin: 0 auto; padding: 0 24px; }
-.section { position: relative; z-index: 1; padding: 88px 0; }
+/* scroll-margin keeps section tops clear of the sticky nav when jumping via nav links */
+.section { position: relative; z-index: 1; padding: 88px 0; scroll-margin-top: 72px; }
 .section--tinted { background: rgba(255, 255, 255, 0.025); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
 .section__kicker {
@@ -142,6 +143,7 @@ body {
   padding: 7px 12px; border-radius: 999px; transition: color .2s, background .2s;
 }
 .nav__links a:hover { color: var(--text); background: rgba(255,255,255,.06); }
+.nav__links a.is-active { color: var(--text); background: rgba(255,255,255,.09); }
 
 .lang-toggle {
   font-family: var(--font-body); font-weight: 800; font-size: 0.8rem; letter-spacing: .05em;
@@ -431,6 +433,254 @@ body {
 .verdict__heart { color: #f28b82; font-size: 1.6rem; animation: pulse 1.6s ease-in-out infinite; }
 @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.25); } }
 
+/* ── Poem · Janji (JM → ICS) ─────────────────────────── */
+.poem__card {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  background: linear-gradient(165deg, rgba(127,208,255,.07), rgba(255,255,255,.02) 45%, rgba(233,196,106,.06));
+  border: 1px solid var(--border-strong);
+  border-radius: 26px;
+  padding: clamp(40px, 6vw, 68px) clamp(22px, 5vw, 56px) clamp(36px, 5vw, 56px);
+  box-shadow: 0 24px 80px rgba(0,0,0,.42);
+  overflow: hidden;
+}
+.poem__card::before {
+  content: "♒"; position: absolute; top: -34px; right: -14px;
+  font-size: 10rem; line-height: 1; color: var(--aqua); opacity: .06;
+  pointer-events: none;
+}
+.poem__card::after {
+  content: "♑"; position: absolute; bottom: -40px; left: -14px;
+  font-size: 10rem; line-height: 1; color: var(--gold); opacity: .06;
+  pointer-events: none;
+}
+
+/* Floating wind streaks inside the poem card */
+.poem__wind {
+  position: absolute; inset: 0;
+  overflow: hidden; pointer-events: none;
+  z-index: 0;
+}
+.poem__wind i {
+  position: absolute;
+  left: -60px; top: var(--top, 40%);
+  width: var(--w, 80px); height: 1.5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+  opacity: 0;
+  animation: windDrift var(--d, 9s) linear var(--delay, 0s) infinite;
+  will-change: transform, opacity;
+}
+.poem__wind i:nth-child(3n) { background: linear-gradient(90deg, transparent, var(--gold-soft), transparent); }
+.poem__wind i:nth-child(4n) { height: 2.5px; }
+
+@keyframes windDrift {
+  0%   { transform: translate(-70px, 0) scaleX(.5); opacity: 0; }
+  12%  { opacity: var(--o, .3); }
+  45%  { transform: translate(250px, -12px) scaleX(1); }
+  80%  { opacity: var(--o, .3); }
+  100% { transform: translate(560px, 10px) scaleX(.75); opacity: 0; }
+}
+
+/* Keep poem content above the drifting particles */
+.poem__card > :not(.poem__wind) { position: relative; z-index: 1; }
+
+.poem__kicker { margin-bottom: 18px; }
+
+.poem__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7vw, 4.2rem);
+  font-weight: 600; line-height: 1.1; letter-spacing: -0.01em;
+  background: var(--grad-text);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.poem__subtitle {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+  color: var(--muted); margin-bottom: 26px;
+}
+
+.poem__dedication {
+  font-size: .92rem; font-weight: 600; letter-spacing: .03em;
+  color: var(--gold-soft);
+  padding-bottom: 26px; margin-bottom: 34px;
+  border-bottom: 1px dashed var(--border-strong);
+}
+
+.poem__stanza {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.05rem, 2.3vw, 1.28rem);
+  line-height: 2.05;
+  color: #dfe3ee;
+  margin: 0 auto 30px;
+  max-width: 540px;
+}
+.poem__stanza:last-of-type { margin-bottom: 34px; }
+
+.poem__closing {
+  max-width: 500px; margin: 0 auto;
+  padding-top: 30px;
+  border-top: 1px dashed var(--border-strong);
+}
+.poem__closing p {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+  line-height: 1.95;
+  color: var(--gold-soft);
+}
+.poem__heart {
+  display: inline-block;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+.poem__signature { margin-top: 34px; }
+.poem__signature-name {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(1.2rem, 3vw, 1.5rem); letter-spacing: .06em;
+  background: linear-gradient(120deg, var(--aqua), var(--violet));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.poem__signature-sub { color: var(--muted); font-size: .85rem; margin-top: 6px; }
+
+/* ── Dedicated poem page (janji.html) ─────────────────── */
+/* scroll-margin keeps letter tops clear of the sticky nav when jumping to #janji / #balasan */
+.page-letter { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 96px 0; scroll-margin-top: 72px; }
+.page-letter .container { width: 100%; }
+
+.page-divider {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  padding: 8px 24px 40px; color: var(--muted);
+}
+.page-divider__line { height: 1px; width: min(140px, 18vw); background: linear-gradient(90deg, transparent, var(--border-strong)); }
+.page-divider__line:last-of-type { background: linear-gradient(90deg, var(--border-strong), transparent); }
+.page-divider__glyph { font-size: 1.15rem; line-height: 1; }
+.page-divider__glyph:first-of-type { color: var(--aqua); }
+.page-divider__glyph:last-of-type { color: var(--gold); }
+.page-divider__star { font-size: .78rem; color: var(--violet); }
+
+.poem__card--reply {
+  background: linear-gradient(165deg, rgba(233,196,106,.09), rgba(255,255,255,.02) 45%, rgba(127,208,255,.06));
+}
+.poem__card--reply::before { content: "♑"; color: var(--gold); }
+.poem__card--reply::after  { content: "♒"; color: var(--aqua); }
+
+.poem__title--reply { background: linear-gradient(120deg, var(--gold-soft), var(--gold)); }
+
+.poem__wind--earth i { background: linear-gradient(90deg, transparent, var(--gold-soft), transparent); }
+.poem__wind--earth i:nth-child(3n) { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+.poem__stanza--prayer { color: var(--gold-soft); }
+
+.poem__location {
+  margin-top: 14px;
+  color: var(--muted); font-size: .85rem; font-weight: 600;
+  font-family: var(--font-body); font-style: normal;
+  letter-spacing: .04em;
+}
+
+.poem__full {
+  display: inline-block; margin-top: 28px;
+  color: var(--aqua); text-decoration: none;
+  font-size: .9rem; font-weight: 700;
+  border-bottom: 1px dotted rgba(127,208,255,.5);
+  transition: border-color .2s, color .2s;
+}
+.poem__full:hover { border-bottom-color: var(--aqua); color: #cfe9ff; }
+
+/* ── Next-letter nav (janji.html) ─────────────────────── */
+.letter-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: .92rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  color: #0b1020;
+  text-decoration: none;
+  background: var(--grad);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .4);
+  white-space: nowrap;
+  transition: transform .15s, box-shadow .2s;
+}
+.letter-nav__arrow { font-size: 1.15em; line-height: 1; }
+.letter-nav:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0, 0, 0, .5); }
+.letter-nav:active { transform: translateY(0) scale(.97); }
+.letter-nav--earth { background: linear-gradient(120deg, var(--gold), var(--gold-soft)); box-shadow: 0 10px 28px rgba(233, 196, 106, .25); }
+.letter-nav--earth:hover { box-shadow: 0 14px 36px rgba(233, 196, 106, .35); }
+
+/* Reveal on a wrapper (not the anchor) so the fade-in never clobbers the
+   button's own hover/active transitions & transforms */
+.letter-nav__wrap.reveal,
+.section-nav.reveal { transition-delay: .25s; }
+
+/* ── Next-section nav (index.html) ────────────────────── */
+/* Reuses the .letter-nav pill; wrapper centers it and adds the trailing fade */
+.section-nav { text-align: center; }
+
+/* ── Reading progress bar (janji.html) ────────────────── */
+.reading-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 70; /* above the sticky nav (50) */
+  pointer-events: none;
+  background: rgba(255, 255, 255, .06);
+}
+.reading-progress__bar {
+  height: 100%;
+  width: 0%;
+  background: var(--grad);
+  box-shadow: 0 0 10px rgba(127, 208, 255, .45);
+  transition: width .08s linear;
+}
+
+/* ── Floating back-to-analysis button (janji.html) ────── */
+.back-to-analysis {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  color: #0b1020;
+  text-decoration: none;
+  background: var(--grad);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 255, 255, .08);
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  /* Keep it out of the tab order & screen readers while hidden */
+  visibility: hidden;
+  transition: opacity .35s ease, transform .35s ease, box-shadow .2s, visibility 0s linear .35s;
+}
+.back-to-analysis.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity .35s ease, transform .35s ease, box-shadow .2s, visibility 0s;
+}
+.back-to-analysis:hover {
+  box-shadow: 0 14px 38px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .18);
+  transform: translateY(-2px);
+}
+.back-to-analysis:active { transform: translateY(0) scale(.97); }
+
 /* ── Sources & footer ──────────────────────────────────── */
 .sources { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .sources li {
@@ -474,10 +724,13 @@ body {
   .hero { min-height: 88vh; padding-top: 100px; }
   .author { flex-direction: column; align-items: center; text-align: center; }
   .author__links { justify-content: center; }
+  .letter-nav { font-size: .84rem; padding: 11px 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
+  /* Never leave the back button invisible when transitions are disabled */
+  .back-to-analysis { opacity: 1; transform: none; pointer-events: auto; visibility: visible; }
 }

@@ -9,7 +9,8 @@
   var html = document.documentElement;
 
   // Static, author-written content — safe to swap as HTML (keeps <strong>/<span> markup)
-  var TITLES = {
+  // Pages can provide their own titles via window.CAPAQ_TITLES (e.g. janji.html)
+  var TITLES = window.CAPAQ_TITLES || {
     id: "CapAq — Pria Capricorn × Wanita Aquarius | Compatibility Deep Dive",
     en: "CapAq — Capricorn Man × Aquarius Woman | Compatibility Deep Dive"
   };
@@ -37,6 +38,51 @@
     langToggle.addEventListener("click", function () {
       applyLang(lang === "id" ? "en" : "id");
     });
+  }
+
+  // ── Floating back-to-analysis button (janji.html only) ──
+  var backBtn = document.querySelector(".back-to-analysis");
+  if (backBtn) {
+    function updateBackBtn() {
+      backBtn.classList.toggle("is-visible", window.scrollY > 280);
+    }
+    window.addEventListener("scroll", updateBackBtn, { passive: true });
+    updateBackBtn();
+  }
+
+  // ── Scrollspy: highlights the active section in the nav (both pages) ──
+  var sectionNavLinks = document.querySelectorAll(".nav__links a[href^='#']");
+  if (sectionNavLinks.length) {
+    var sectionTargets = Array.prototype.map.call(sectionNavLinks, function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    function updateSectionNav() {
+      var pos = window.scrollY + 140;
+      var current = null;
+      sectionTargets.forEach(function (s) {
+        if (s && s.getBoundingClientRect().top + window.scrollY <= pos) current = s.id;
+      });
+      sectionNavLinks.forEach(function (a) {
+        a.classList.toggle("is-active", a.getAttribute("href") === "#" + current);
+      });
+    }
+    window.addEventListener("scroll", updateSectionNav, { passive: true });
+    updateSectionNav();
+  }
+
+  // ── Reading progress bar (janji.html only) ──────────────
+  var progressBar = document.getElementById("readingProgressBar");
+  if (progressBar) {
+    var progressTrack = progressBar.parentElement;
+    function updateReadingProgress() {
+      var max = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      progressBar.style.width = pct.toFixed(2) + "%";
+      if (progressTrack) progressTrack.setAttribute("aria-valuenow", Math.round(pct));
+    }
+    window.addEventListener("scroll", updateReadingProgress, { passive: true });
+    window.addEventListener("resize", updateReadingProgress, { passive: true });
+    updateReadingProgress();
   }
 
   // ── Scroll reveal ───────────────────────────────────────

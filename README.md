@@ -21,7 +21,36 @@
 12. **Putusan Akhir & Sumber**
 
 Fitur: tombol **ID / EN** untuk ganti bahasa, tema kosmik responsif,
-meter kompatibilitas beranimasi, dan smooth-scroll nav.
+meter kompatibilitas beranimasi, smooth-scroll nav, dan halaman puisi
+khusus (`janji.html`).
+
+## Halaman Puisi: `janji.html`
+
+Selain artikel analisis, situs ini punya **halaman puisi khusus** — dua surat
+antara tanah dan angin — dengan **URL tersendiri** yang bisa dibagikan langsung:
+
+- **Surat 1 — "Janji"** — dari JM, sang angin (♒ Aquarius), untuk ICS, sang Capricorn (♑) — 📍 Pare · 8 Agustus 2026 · 23:34 WIB
+- **Surat 2 — "Balasan Sang Tanah"** — balasan dari ICS, sang tanah (♑), untuk JM, sang angin (♒) — 📍 Surabaya · 9 Agustus 2026 · 04:03 WIB
+
+URL: `https://USERNAME.github.io/CapAq/janji.html`
+
+Fitur halaman:
+
+- **Bilingual penuh** — tombol **ID/EN** yang sama dengan halaman utama;
+  preferensi bahasa tersimpan di `localStorage` (key `capaq-lang`), jadi
+  pilihan bahasa nyambung antar halaman. Judul tab browser ikut berganti
+  (halaman menyuplai judulnya sendiri via `window.CAPAQ_TITLES`).
+- **Tampilan surat** — kartu full-screen dengan animasi partikel angin
+  (biru-aqua untuk JM, emas untuk balasan ICS), watermark zodiak ♒ ♑,
+  dan pembatas elegan di antara dua surat.
+- **Navigasi bolak-balik** — link "📖 Buka versi layar penuh" dari section
+  puisi di `index.html`, tombol floating "← Kembali ke Analisis" (muncul
+  setelah scroll; tersembunyi dari tab order saat tak terlihat), dan link
+  di footer.
+- **Siap dibagikan** — `og:image` & Twitter card sudah terpasang, jadi
+  preview WhatsApp/Telegram menampilkan thumbnail.
+- **Deploy otomatis** — workflow yang sama (`.github/workflows/deploy.yml`)
+  meng-upload semua file di root, jadi `janji.html` ikut live tanpa konfigurasi tambahan.
 
 ## Cara Publikasi ke GitHub Pages
 
@@ -57,6 +86,7 @@ meter kompatibilitas beranimasi, dan smooth-scroll nav.
 ```
 .
 ├── index.html          # Artikel lengkap bilingual (konten utama)
+├── janji.html          # Halaman puisi khusus: Janji (JM) & Balasan Sang Tanah (ICS)
 ├── styles.css          # Tema kosmik
 ├── script.js           # Toggle bahasa ID/EN + animasi
 ├── README.md           # Panduan ini
