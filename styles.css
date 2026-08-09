@@ -439,21 +439,26 @@ body {
   max-width: 700px;
   margin: 0 auto;
   text-align: center;
-  background: linear-gradient(165deg, rgba(127,208,255,.07), rgba(255,255,255,.02) 45%, rgba(233,196,106,.06));
-  border: 1px solid var(--border-strong);
+  /* Layered "wind at first light" treatment (aqua) — mirrors the reply card's
+     gold treatment so both letters read equally rich, never flat. */
+  background:
+    radial-gradient(620px 360px at 50% -12%, rgba(127, 208, 255, .20), transparent 68%),
+    radial-gradient(520px 340px at 108% 112%, rgba(233, 196, 106, .12), transparent 62%),
+    linear-gradient(165deg, rgba(127, 208, 255, .18) 0%, rgba(255, 255, 255, .045) 45%, rgba(233, 196, 106, .12) 100%);
+  border: 1px solid rgba(127, 208, 255, .28);
   border-radius: 26px;
   padding: clamp(40px, 6vw, 68px) clamp(22px, 5vw, 56px) clamp(36px, 5vw, 56px);
-  box-shadow: 0 24px 80px rgba(0,0,0,.42);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(127, 208, 255, .22);
   overflow: hidden;
 }
 .poem__card::before {
   content: "♒"; position: absolute; top: -34px; right: -14px;
-  font-size: 10rem; line-height: 1; color: var(--aqua); opacity: .06;
+  font-size: 10rem; line-height: 1; color: var(--aqua); opacity: .10;
   pointer-events: none;
 }
 .poem__card::after {
   content: "♑"; position: absolute; bottom: -40px; left: -14px;
-  font-size: 10rem; line-height: 1; color: var(--gold); opacity: .06;
+  font-size: 10rem; line-height: 1; color: var(--gold); opacity: .10;
   pointer-events: none;
 }
 
@@ -468,12 +473,13 @@ body {
   left: -60px; top: var(--top, 40%);
   width: var(--w, 80px); height: 1.5px;
   border-radius: 999px;
-  background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+  background: linear-gradient(90deg, transparent, #a8dcff, transparent);
+  filter: drop-shadow(0 0 3px rgba(127, 208, 255, .45));
   opacity: 0;
   animation: windDrift var(--d, 9s) linear var(--delay, 0s) infinite;
   will-change: transform, opacity;
 }
-.poem__wind i:nth-child(3n) { background: linear-gradient(90deg, transparent, var(--gold-soft), transparent); }
+.poem__wind i:nth-child(3n) { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 .poem__wind i:nth-child(4n) { height: 2.5px; }
 
 @keyframes windDrift {
@@ -563,14 +569,24 @@ body {
 .page-divider__star { font-size: .78rem; color: var(--violet); }
 
 .poem__card--reply {
-  background: linear-gradient(165deg, rgba(233,196,106,.09), rgba(255,255,255,.02) 45%, rgba(127,208,255,.06));
+  /* Layered "earth at first light" treatment so the reply card never reads as
+     a flat solid panel: warm gold halo up top, cool aqua glimmer below, and a
+     clearly visible gold → white → aqua flow through the middle. */
+  background:
+    radial-gradient(620px 360px at 50% -12%, rgba(233, 196, 106, .22), transparent 68%),
+    radial-gradient(520px 340px at 108% 112%, rgba(127, 208, 255, .12), transparent 62%),
+    linear-gradient(165deg, rgba(233, 196, 106, .20) 0%, rgba(255, 255, 255, .045) 45%, rgba(127, 208, 255, .13) 100%);
+  border-color: rgba(233, 196, 106, .30);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(233, 196, 106, .22);
 }
-.poem__card--reply::before { content: "♑"; color: var(--gold); }
-.poem__card--reply::after  { content: "♒"; color: var(--aqua); }
+.poem__card--reply::before { content: "♑"; color: var(--gold); opacity: .10; }
+.poem__card--reply::after  { content: "♒"; color: var(--aqua); opacity: .10; }
 
 .poem__title--reply { background: linear-gradient(120deg, var(--gold-soft), var(--gold)); }
 
-.poem__wind--earth i { background: linear-gradient(90deg, transparent, var(--gold-soft), transparent); }
+/* Brighter, glowing gold streaks so the drifting wind is actually visible
+   against the gold-tinted reply card */
+.poem__wind--earth i { background: linear-gradient(90deg, transparent, #f7e6bd, transparent); filter: drop-shadow(0 0 3px rgba(233, 196, 106, .45)); }
 .poem__wind--earth i:nth-child(3n) { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 
 .poem__stanza--prayer { color: var(--gold-soft); }
