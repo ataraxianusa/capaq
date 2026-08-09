@@ -582,7 +582,10 @@ body {
 .poem__card--reply::before { content: "♑"; color: var(--gold); opacity: .10; }
 .poem__card--reply::after  { content: "♒"; color: var(--aqua); opacity: .10; }
 
-.poem__title--reply { background: linear-gradient(120deg, var(--gold-soft), var(--gold)); }
+/* NOTE: use background-image (longhand), NOT the background shorthand — the
+   shorthand resets background-clip to border-box, which would clobber the
+   gradient-text clipping from .poem__title and render an invisible-text box. */
+.poem__title--reply { background-image: linear-gradient(120deg, var(--gold-soft), var(--gold)); }
 
 /* Brighter, glowing gold streaks so the drifting wind is actually visible
    against the gold-tinted reply card */
