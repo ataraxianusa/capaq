@@ -629,8 +629,24 @@ body {
 .letter-nav__arrow { font-size: 1.15em; line-height: 1; }
 .letter-nav:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0, 0, 0, .5); }
 .letter-nav:active { transform: translateY(0) scale(.97); }
-.letter-nav--earth { background: linear-gradient(120deg, var(--gold), var(--gold-soft)); box-shadow: 0 10px 28px rgba(233, 196, 106, .25); }
-.letter-nav--earth:hover { box-shadow: 0 14px 36px rgba(233, 196, 106, .35); }
+/* Bare text-link variant (letters page) — no solid pill box; styled like the
+   in-nav letter links so it reads as part of the letter, not a UI button */
+.letter-nav--bare {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0 0 3px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--gold-soft);
+  border-bottom: 1px dotted rgba(233, 196, 106, .55);
+  transition: color .2s, border-color .2s;
+}
+.letter-nav--bare:hover { transform: none; box-shadow: none; color: var(--gold); border-bottom-color: var(--gold); }
+.letter-nav--bare:active { transform: none; }
+.letter-nav--bare--aqua { color: var(--aqua); border-bottom-color: rgba(127, 208, 255, .55); }
+.letter-nav--bare--aqua:hover { color: #cfe9ff; border-bottom-color: #cfe9ff; }
 
 /* Reveal on a wrapper (not the anchor) so the fade-in never clobbers the
    button's own hover/active transitions & transforms */
@@ -741,6 +757,7 @@ body {
   .author { flex-direction: column; align-items: center; text-align: center; }
   .author__links { justify-content: center; }
   .letter-nav { font-size: .84rem; padding: 11px 20px; }
+  .letter-nav--bare { font-size: .9rem; padding: 0 0 3px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
